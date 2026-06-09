@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STEMvia</title>
+
+  <!--
+    FONTS NOTE:
+    "Le Jour Serif" and "The Seasons" are Canva-exclusive fonts and cannot be
+    embedded via CDN in external HTML files. This file uses the closest
+    freely available web alternatives that match their aesthetic:
+      - Headings: "Cormorant Garamond" (matches Le Jour Serif's elegant, high-contrast serif style)
+      - Body:     "Lora" (matches The Seasons' warm, readable transitional serif style)
+    When you deploy this to a real site, replace the @import and font-family
+    values with your licensed copies of Le Jour Serif and The Seasons using @font-face.
+  -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Tokens ──────────────────────────────────────────────── */
+    :root {
+      --bg:          #0F0E0C;
+      --bg-soft:     #1A1916;
+      --bg-mid:      #252320;
+      --cream:       #F5F0E8;
+      --cream-dim:   #C8BFA8;
+      --cream-muted: #7A7163;
+      --rule:        rgba(245,240,232,0.12);
+      --font-head:   'Cormorant Garamond', 'Georgia', serif;
+      --font-body:   'Lora', 'Times New Roman', serif;
+    }
+
+    /* ── Reset ───────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--cream);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.8;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Nav ─────────────────────────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: 0.5px solid var(--rule);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5vw;
+      height: 64px;
+    }
+
+    .nav-logo {
+      font-family: var(--font-head);
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--cream);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--font-body);
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--cream-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--cream);
+    }
+
+    /* ── Pages ───────────────────────────────────────────────── */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ── Wrapper & sections ──────────────────────────────────── */
+    .wrapper {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 0 5vw;
+    }
+
+    section {
+      padding: 5rem 0;
+      border-bottom: 0.5px solid var(--rule);
+    }
+
+    section:last-child { border-bottom: none; }
+
+    /* ── Hero ────────────────────────────────────────────────── */
+    .hero {
+      padding: 7rem 0 6rem;
+      border-bottom: 0.5px solid var(--rule);
+    }
+
+    .hero-tag {
+      font-family: var(--font-body);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cream-muted);
+      margin-bottom: 1.75rem;
+    }
+
+    .hero-headline {
+      font-family: var(--font-head);
+      font-size: clamp(42px, 7vw, 72px);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--cream);
+      margin-bottom: 2rem;
+      max-width: 680px;
+    }
+
+    .hero-headline em {
+      font-style: italic;
+      font-weight: 300;
+    }
+
+    .hero-sub {
+      font-family: var(--font-body);
+      font-size: 17px;
+      line-height: 1.85;
+      color: var(--cream-dim);
+      max-width: 520px;
+      margin-bottom: 3rem;
+    }
+
+    /* ── Buttons ─────────────────────────────────────────────── */
+    .btn-primary {
+      display: inline-block;
+      background: var(--cream);
+      color: var(--bg);
+      font-family: var(--font-body);
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 14px 36px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .btn-primary:hover {
+      background: var(--cream-dim);
+    }
+
+    .btn-outline {
+      display: inline-block;
+      background: transparent;
+      color: var(--cream);
+      font-family: var(--font-body);
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 13px 35px;
+      border: 0.5px solid var(--cream);
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      margin-left: 12px;
+    }
+
+    .btn-outline:hover {
+      background: var(--cream);
+      color: var(--bg);
+    }
+
+    /* ── Headings & body ─────────────────────────────────────── */
+    .eyebrow {
+      font-family: var(--font-body);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cream-muted);
+      margin-bottom: 1.25rem;
+    }
+
+    h2 {
+      font-family: var(--font-head);
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 400;
+      line-height: 1.2;
+      color: var(--cream);
+      margin-bottom: 1.5rem;
+    }
+
+    h2 em { font-style: italic; font-weight: 300; }
+
+    h3 {
+      font-family: var(--font-head);
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--cream);
+      margin-bottom: 0.6rem;
+    }
+
+    p {
+      font-family: var(--font-body);
+      font-size: 15.5px;
+      color: var(--cream-dim);
+      line-height: 1.85;
+      margin-bottom: 1.25rem;
+    }
+
+    p:last-child { margin-bottom: 0; }
+
+    /* ── Card grid ───────────────────────────────────────────── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1px;
+      background: var(--rule);
+      border: 0.5px solid var(--rule);
+      margin-top: 3rem;
+    }
+
+    .card {
+      background: var(--bg);
+      padding: 2rem 1.75rem;
+    }
+
+    .card-num {
+      font-family: var(--font-head);
+      font-size: 36px;
+      font-weight: 300;
+      color: var(--bg-mid);
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    .card h3 { font-size: 18px; margin-bottom: 0.5rem; }
+    .card p { font-size: 14px; margin-bottom: 0; }
+
+    /* ── Pull quote ──────────────────────────────────────────── */
+    .pull-quote {
+      border-top: 0.5px solid var(--rule);
+      border-bottom: 0.5px solid var(--rule);
+      padding: 3rem 0;
+      margin: 4rem 0;
+    }
+
+    .pull-quote blockquote {
+      font-family: var(--font-head);
+      font-size: clamp(22px, 3.5vw, 34px);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.4;
+      color: var(--cream);
+      max-width: 640px;
+    }
+
+    /* ── Pills ───────────────────────────────────────────────── */
+    .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1.5rem; }
+
+    .pill {
+      font-family: var(--font-body);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--cream-muted);
+      border: 0.5px solid var(--bg-mid);
+      padding: 5px 14px;
+      background: var(--bg-soft);
+    }
+
+    /* ── Two-col ─────────────────────────────────────────────── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    /* ── Involve cards ───────────────────────────────────────── */
+    .involve-card {
+      border: 0.5px solid var(--rule);
+      padding: 2.5rem;
+      margin-bottom: 1px;
+      background: var(--bg);
+      transition: background 0.2s;
+    }
+
+    .involve-card:hover { background: var(--bg-soft); }
+
+    .involve-card h3 {
+      font-size: 26px;
+      font-weight: 400;
+      margin-bottom: 0.75rem;
+    }
+
+    .involve-card p { font-size: 15px; margin-bottom: 1.5rem; }
+
+    .link-row { display: flex; flex-wrap: wrap; gap: 10px; }
+
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-body);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--cream);
+      text-decoration: none;
+      border: 0.5px solid var(--rule);
+      padding: 9px 18px;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .social-link:hover {
+      background: var(--bg-soft);
+      border-color: var(--cream-muted);
+    }
+
+    .social-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+
+    /* ── Newsletter section ──────────────────────────────────── */
+    .newsletter-section {
+      background: var(--bg-soft);
+      border-top: 0.5px solid var(--rule);
+      border-bottom: 0.5px solid var(--rule);
+      padding: 5rem 5vw;
+    }
+
+    .newsletter-inner {
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    .newsletter-inner .eyebrow { margin-bottom: 1rem; }
+
+    .newsletter-inner h2 {
+      font-size: clamp(26px, 3.5vw, 38px);
+      margin-bottom: 1rem;
+    }
+
+    .newsletter-inner p {
+      max-width: 480px;
+      margin-bottom: 2rem;
+    }
+
+    .newsletter-form {
+      display: flex;
+      gap: 0;
+      max-width: 480px;
+    }
+
+    .newsletter-form input[type="email"] {
+      flex: 1;
+      background: var(--bg);
+      border: 0.5px solid var(--rule);
+      border-right: none;
+      color: var(--cream);
+      font-family: var(--font-body);
+      font-size: 14px;
+      padding: 13px 18px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .newsletter-form input[type="email"]::placeholder {
+      color: var(--cream-muted);
+    }
+
+    .newsletter-form input[type="email"]:focus {
+      border-color: var(--cream-muted);
+    }
+
+    .newsletter-form button {
+      background: var(--cream);
+      color: var(--bg);
+      font-family: var(--font-body);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 13px 26px;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+
+    .newsletter-form button:hover { background: var(--cream-dim); }
+
+    .newsletter-confirm {
+      display: none;
+      font-family: var(--font-body);
+      font-size: 14px;
+      color: var(--cream-dim);
+      letter-spacing: 0.04em;
+      margin-top: 1rem;
+      font-style: italic;
+    }
+
+    /* ── Closing ─────────────────────────────────────────────── */
+    .closing {
+      background: var(--cream);
+      color: var(--bg);
+      padding: 6rem 5vw;
+      text-align: center;
+    }
+
+    .closing h2 {
+      color: var(--bg);
+      font-size: clamp(32px, 5vw, 54px);
+      font-weight: 300;
+      margin-bottom: 1.5rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .closing h2 em { color: var(--bg); }
+
+    .closing p {
+      color: var(--cream-muted);
+      font-size: 16px;
+      max-width: 440px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .closing .btn-primary {
+      background: var(--bg);
+      color: var(--cream);
+    }
+
+    .closing .btn-primary:hover {
+      background: var(--bg-soft);
+    }
+
+    /* ── Font note ───────────────────────────────────────────── */
+    .font-note {
+      background: var(--bg-soft);
+      border-bottom: 0.5px solid var(--rule);
+      padding: 10px 5vw;
+      font-family: var(--font-body);
+      font-size: 12px;
+      color: var(--cream-muted);
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Responsive ──────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      .two-col { grid-template-columns: 1fr; gap: 2.5rem; }
+      .btn-outline { margin-left: 0; margin-top: 10px; display: block; text-align: center; }
+      nav { padding: 0 4vw; }
+      .nav-links { gap: 1.25rem; }
+      .newsletter-form { flex-direction: column; }
+      .newsletter-form input[type="email"] { border-right: 0.5px solid var(--rule); border-bottom: none; }
+      .newsletter-form button { padding: 13px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="font-note">
+    ⓘ Font note: Using <strong style="color:var(--cream-dim)">Cormorant Garamond</strong> & <strong style="color:var(--cream-dim)">Lora</strong> as free web alternatives to Le Jour Serif & The Seasons. Replace with <code>@font-face</code> when your licensed font files are ready.
+  </div>
+
+  <!-- ── Navigation ────────────────────────────────────────── -->
+  <nav>
+    <a class="nav-logo" href="#" onclick="showPage('home'); return false;">STEMvia</a>
+    <ul class="nav-links">
+      <li><a href="#" onclick="showPage('home'); return false;" id="nav-home" class="active">Home</a></li>
+      <li><a href="#" onclick="showPage('about'); return false;" id="nav-about">About</a></li>
+      <li><a href="#" onclick="showPage('involve'); return false;" id="nav-involve">Get Involved</a></li>
+    </ul>
+  </nav>
+
+  <!-- ══════════════════════════════════════════════════════════
+       PAGE 1 — HOME
+  ══════════════════════════════════════════════════════════════ -->
+  <div id="page-home" class="page active">
+
+    <div class="wrapper">
+      <div class="hero">
+        <div class="hero-tag">Youth-led &nbsp;·&nbsp; India &amp; beyond</div>
+        <h1 class="hero-headline">STEM was never<br>just medicine<br><em>and engineering.</em></h1>
+        <p class="hero-sub">There's a whole world of science waiting to be built into something real — products, companies, solutions. We're here to show you what that looks like.</p>
+        <button class="btn-primary" onclick="showPage('involve')">Join the team</button>
+        <button class="btn-outline" onclick="showPage('about')">Our story</button>
+      </div>
+    </div>
+
+    <div class="wrapper">
+      <section>
+        <div class="eyebrow">What we're building</div>
+        <h2>A community for the curious, the builders, the ones who ask <em>why not.</em></h2>
+        <p>We're a youth-led nonprofit on a mission to expand what STEM means — and what it can do. Rooted in India, reaching globally, we believe science-backed startups are one of the most powerful forces for change that exists right now.</p>
+
+        <div class="card-grid">
+          <div class="card">
+            <div class="card-num">01</div>
+            <h3>Expand the vision</h3>
+            <p>STEM careers beyond the two lanes everyone knows. Climate tech, edtech, biotech, deep science, social enterprise — all of it.</p>
+          </div>
+          <div class="card">
+            <div class="card-num">02</div>
+            <h3>Build with science</h3>
+            <p>Startups aren't just businesses. When they're grounded in science, they solve real problems at real scale.</p>
+          </div>
+          <div class="card">
+            <div class="card-num">03</div>
+            <h3>Grow the community</h3>
+            <p>Connect with other young people who see what you see — and want to do something about it.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="wrapper">
+      <div class="pull-quote">
+        <blockquote>"The next generation of STEM leaders won't just discover things. They'll build things — and that changes everything."</blockquote>
+      </div>
+    </div>
+
+    <!-- Newsletter on Home page too -->
+    <div class="newsletter-section">
+      <div class="newsletter-inner">
+        <div class="eyebrow">Stay in the loop</div>
+        <h2>Subscribe to the<br><em>STEMvia newsletter.</em></h2>
+        <p>Updates on what we're building, stories from the STEM world, and opportunities you won't want to miss — straight to your inbox.</p>
+        <div class="newsletter-form">
+          <input type="email" id="email-home" placeholder="Your email address" />
+          <button onclick="subscribeNewsletter('email-home', 'confirm-home')">Subscribe</button>
+        </div>
+        <p class="newsletter-confirm" id="confirm-home">You're in. Welcome to the STEMvia community.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       PAGE 2 — ABOUT
+  ══════════════════════════════════════════════════════════════ -->
+  <div id="page-about" class="page">
+
+    <div class="wrapper">
+      <div class="hero">
+        <div class="hero-tag">Our story</div>
+        <h1 class="hero-headline">We're early.<br>We're serious.<br><em>We're just getting started.</em></h1>
+        <p class="hero-sub">We started with a question: why does STEM in India feel like a two-option test when the actual field is infinite?</p>
+      </div>
+    </div>
+
+    <div class="wrapper">
+      <section>
+        <div class="two-col">
+          <div>
+            <div class="eyebrow">Who we are</div>
+            <h2>Young people who believe science <em>should go further.</em></h2>
+          </div>
+          <div>
+            <p>We're a nonprofit built and run by young people — students, tinkerers, first-time founders, curious minds. We're not backed by a big institution. We're not established yet.</p>
+            <p>But we're building something real, and we want you to be part of it from the ground up.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="wrapper">
+      <section>
+        <div class="eyebrow">Why we exist</div>
+        <h2>The road should have <em>more than two lanes.</em></h2>
+        <p>In India and across much of the world, STEM gets funnelled into two directions: become a doctor or become an engineer. That framing leaves out everything else — the researchers, the innovators, the entrepreneurs, the people building the next generation of solutions to climate, health, education, and economic inequality.</p>
+        <p>We're here to make the full picture visible. Because when young people see what STEM can actually become, they start building differently.</p>
+      </section>
+    </div>
+
+    <div class="wrapper">
+      <div class="pull-quote">
+        <blockquote>"A startup grounded in science isn't just a business idea. It's a hypothesis with a team behind it."</blockquote>
+      </div>
+    </div>
+
+    <div class="wrapper">
+      <section>
+        <div class="two-col">
+          <div>
+            <div class="eyebrow">What we believe</div>
+            <h2>Entrepreneurship <em>is</em> science meeting real life.</h2>
+          </div>
+          <div>
+            <p>Startups can be more than a product or a pitch deck. When they're built on scientific thinking — understanding a problem deeply, testing ideas rigorously, iterating with evidence — they become something more powerful.</p>
+            <p>They become solutions. We want to put that kind of entrepreneurship in front of every young STEM mind we can reach.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="wrapper">
+      <section>
+        <div class="eyebrow">Our reach</div>
+        <h2>India-first.<br><em>Globally minded.</em></h2>
+        <p>We're starting where we are — in India, where the STEM talent is enormous and the ecosystem is still catching up. But the problems we're talking about, and the community we're building, don't stop at a border. If you're anywhere in the world and this resonates, you belong here too.</p>
+        <div class="pill-row">
+          <span class="pill">India</span>
+          <span class="pill">South Asia</span>
+          <span class="pill">Global community</span>
+          <span class="pill">Youth-led</span>
+          <span class="pill">STEM entrepreneurship</span>
+        </div>
+      </section>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       PAGE 3 — GET INVOLVED
+  ══════════════════════════════════════════════════════════════ -->
+  <div id="page-involve" class="page">
+
+    <div class="wrapper">
+      <div class="hero">
+        <div class="hero-tag">Get involved</div>
+        <h1 class="hero-headline">This is where<br><em>you come in.</em></h1>
+        <p class="hero-sub">We're building the team, the community, and the movement — right now. There's no better time to be part of this than the beginning.</p>
+      </div>
+    </div>
+
+    <div class="wrapper">
+      <section>
+        <div class="eyebrow">Three ways in</div>
+        <h2>Pick your entry point.</h2>
+
+        <div class="involve-card" style="margin-top: 2.5rem;">
+          <h3>Join the team</h3>
+          <p>We're recruiting. Whether you're into communications, content, research, outreach, or just have energy and ideas — there's a place for you here. Fill out our form and tell us who you are.</p>
+          <div class="link-row">
+            <a class="social-link" href="#" target="_blank">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg>
+              Apply via Google Form
+            </a>
+          </div>
+        </div>
+
+        <div class="involve-card">
+          <h3>Follow the journey</h3>
+          <p>We're documenting everything — the building, the learning, the community moments. Follow us on Instagram and LinkedIn to stay in the loop and be part of the conversation as it happens.</p>
+          <div class="link-row">
+            <a class="social-link" href="https://www.instagram.com/stemvia/" target="_blank">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+              @stemvia on Instagram
+            </a>
+            <a class="social-link" href="https://www.linkedin.com/company/stemvia/" target="_blank">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              STEMvia on LinkedIn
+            </a>
+          </div>
+        </div>
+
+        <div class="involve-card">
+          <h3>Subscribe to the newsletter</h3>
+          <p>Get updates on what we're building, STEM entrepreneurship stories, and opportunities worth knowing about — right in your inbox. No noise, just signal.</p>
+          <div class="newsletter-form" style="max-width:100%;">
+            <input type="email" id="email-involve" placeholder="Your email address" />
+            <button onclick="subscribeNewsletter('email-involve', 'confirm-involve')">Subscribe</button>
+          </div>
+          <p class="newsletter-confirm" id="confirm-involve">You're in. Welcome to the STEMvia community.</p>
+        </div>
+
+      </section>
+    </div>
+
+    <div class="closing">
+      <h2>The future of STEM<br>isn't waiting.<br><em>Neither should you.</em></h2>
+      <p>You don't need to have it all figured out. You just need to show up. We'll build the rest together.</p>
+      <button class="btn-primary" onclick="window.open('https://www.instagram.com/stemvia/', '_blank')">Follow us to start</button>
+    </div>
+
+  </div>
+
+  <script>
+    function showPage(id) {
+      ['home', 'about', 'involve'].forEach(p => {
+        document.getElementById('page-' + p).classList.remove('active');
+        const navEl = document.getElementById('nav-' + p);
+        if (navEl) navEl.classList.remove('active');
+      });
+      document.getElementById('page-' + id).classList.add('active');
+      const activeNav = document.getElementById('nav-' + id);
+      if (activeNav) activeNav.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function subscribeNewsletter(inputId, confirmId) {
+      const input = document.getElementById(inputId);
+      const confirm = document.getElementById(confirmId);
+      const email = input.value.trim();
+      if (!email || !email.includes('@')) {
+        input.style.borderColor = 'rgba(245,240,232,0.4)';
+        input.placeholder = 'Please enter a valid email';
+        return;
+      }
+      input.parentElement.style.display = 'none';
+      confirm.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
